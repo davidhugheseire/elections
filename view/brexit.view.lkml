@@ -14,6 +14,7 @@ view: brexit {
   }
 
   dimension: area_code {
+    label: "Foo Bar"
     type: string
     sql: ${TABLE}.Area_Code ;;
   }

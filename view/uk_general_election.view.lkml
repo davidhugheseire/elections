@@ -283,7 +283,7 @@ view: uk_general_election {
     dimension: plaid_cymru_vote_2010 {
       group_label: "2010 Election"
       label: "Plaid Cymru Votes 2010"
-      type: number
+      type: string
       sql: ${TABLE}.pcvote10 ;;
     }
 
@@ -654,6 +654,11 @@ view: uk_general_election {
   }
 
 
+measure: winning_NI{
+  type: sum
+  sql: case when ${winner17} = "SF" then 100 when ${winner17} = "DUP" then 10 else 0 end  ;;
+}
+
   dimension: electorate17 {
     group_label: "2017 Election"
     label: "2017 Electorate"
@@ -994,11 +999,87 @@ view: uk_general_election {
     sql: ${TABLE}.sfvote17 ;;
   }
 
-
-
-
     measure: count {
       type: count
       drill_fields: [constituency, county_name, region_name, country_name]
     }
-  }
+
+
+
+
+
+
+
+
+
+    #------------ Testing
+
+
+
+
+# {% if {{value}} %}
+# Hello {{ user.name }}!
+# {% else %}
+# Nothing to see
+# {% endif %}
+#
+
+
+
+#   dimension: null_test {
+#     type: number
+#     sql: ${plaid_cymru_vote_2010} ;;
+#     html:
+#     {% if value %}
+#       <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+#     {% elsif %}
+#       <p style="color: black; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
+#     {% endif %}
+# ;;
+#   }
+
+
+
+
+
+  # dimension: convert_nulls {
+  #   type: string
+  #   sql: case when ${plaid_cymru_vote_2010} is null then "N/A" else ${plaid_cymru_vote_2010} end ;;
+  # }
+
+
+
+
+
+
+
+
+
+
+
+
+  dimension: change_null_test {
+    type: string
+    sql: case when ${plaid_cymru_vote_2010} is null then "N/A" else ${plaid_cymru_vote_2010} end ;;
+    html:
+    {% if value == "N/A"%}
+      <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+      <p style="color: black; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+;;}
+
+
+  dimension: coalesce_test {
+    type: string
+    sql:  COALESCE(${plaid_cymru_vote_2010}, '0') ;;
+    html:
+    {% if value == '0' %}
+      <p style="color: black; background-color: lightblue; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% else %}
+      <p style="color: black; background-color: red; font-size:100%; text-align:center">{{ rendered_value }}</p>
+    {% endif %}
+;;}
+
+
+    }

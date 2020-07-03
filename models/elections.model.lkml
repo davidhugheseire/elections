@@ -1,6 +1,6 @@
 connection: "dave_big_query"
 
-include: "/Views/*.view.lkml"                       # include all views in this project
+include: "/view/*"                       # include all views in this project
 
 explore: uk_general_election {}
 explore: brexit {}
@@ -11,3 +11,6 @@ map_layer: my_neighborhood_layer {
   url: "https://martinjc.github.io/UK-GeoJSON/json/eng/topo_wpc.json"
   property_key: "ons_id"
 }
+
+
+explore: derived_test {}
